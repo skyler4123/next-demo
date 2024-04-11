@@ -1,6 +1,7 @@
 'use client'
 
 import { UsersApi } from "@/api/users";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 interface UserType {
@@ -25,6 +26,7 @@ export default function Users() {
   }, [])
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <Button>Test Shadcn</Button>
       {users.map(user => <div key={user.id}>{user.email}</div>)}
     </main>
   );
