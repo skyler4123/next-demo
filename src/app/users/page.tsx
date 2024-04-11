@@ -1,6 +1,7 @@
 'use client'
 
 import { UsersApi } from "@/api/users";
+import Overlay from "@/components/overlay";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
@@ -26,7 +27,9 @@ export default function Users() {
   }, [])
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button>Test Shadcn</Button>
+      <Overlay isShow={true} className='w-full h-10'>
+        <Button>Test Shadcn</Button>
+      </Overlay>
       {users.map(user => <div key={user.id}>{user.email}</div>)}
     </main>
   );
