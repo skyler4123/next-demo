@@ -7,6 +7,7 @@ interface UserType {
   id: number;
   email: string
 }
+
 export default function Users() {
   const [users, setUsers] = useState<UserType[]>([])
 
