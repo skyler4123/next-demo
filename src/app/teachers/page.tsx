@@ -6,7 +6,7 @@ import Teacher from "./[id]/page";
 import Overlay from "@/components/overlay";
 import { Button } from "@/components/ui/button";
 
-interface TeacherType {
+export interface TeacherType {
   id: number;
   email: string;
 }
