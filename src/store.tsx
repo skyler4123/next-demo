@@ -1,5 +1,10 @@
 import { create } from 'zustand'
 
+interface StoreType {
+  bears: number;
+  increasePopulation: () => void;
+  removeAllBears: () => void;
+}
 
 const bearsConfig = (set: any) => {
 return {
@@ -9,7 +14,7 @@ return {
 }
 }
 
-const Store = create((set) => ({
+const Store = create<StoreType>((set) => ({
   ...bearsConfig(set)
 
 
