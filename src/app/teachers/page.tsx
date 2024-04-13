@@ -2,7 +2,6 @@
 
 import { TeachersApi } from "@/api/teachers";
 import { useEffect, useState } from "react";
-import Teacher from "./[id]/page";
 import Overlay from "@/components/overlay";
 import { Button } from "@/components/ui/button";
 import "react-toastify/dist/ReactToastify.css";
