@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 const Demo = () => {
   const { control ,handleSubmit } = useForm()
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log(data)
   }
 

@@ -65,7 +65,7 @@ const GeoJsonPage = () => {
 
 
 
-    return () => map.setTarget(null)
+    return () => map.setTarget(undefined)
   }, [])
 
   return (

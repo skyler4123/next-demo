@@ -70,7 +70,7 @@ const Teachers = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((teacher) => (
+            {data.map((teacher: any) => (
               <TableRow>
               <TableCell className="font-medium">{teacher.id}</TableCell>
               <TableCell>{teacher.avatar}</TableCell>
