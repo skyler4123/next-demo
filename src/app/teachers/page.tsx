@@ -15,6 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import useFetch from "@/hooks/use_fetch";
 
 
 export interface TeacherType {
@@ -26,31 +29,35 @@ export interface TeacherType {
 }
 
 const Teachers = () => {
-  const [teachers, setTeachers] = useState<TeacherType[]>([])
-  const [isShowOverlay, setIsShowOverlay] = useState(true)
-  const fetchTeachers = async () => {
-    try {
-      toast("Wow so easy !");
-      setIsShowOverlay(true)
-      await TeachersApi.index().then(response => {
-        setTeachers(response.data)
-        setIsShowOverlay(false)
-        toast.dismiss()
-      })
-    } catch(error) {
-      console.log(error)
-    }
+  // const data1 = useFetch(null)
+  // console.log('wwwwwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeeeee', data1)
+  const { isPending, error, data, isSuccess, refetch } = useQuery({
+    queryKey: ['teachers'],
+    queryFn: () => TeachersApi.index().then(response => response.data),
+    staleTime: 150000
+  })
+
+  const demo = () => {
+    refetch()
   }
 
-  useEffect(() => {
-    fetchTeachers();
-  }, [])
+  if (isPending) return <Overlay className={'flex flex-col w-full justify-center items-center'} />
 
-  return (
-    <div>
-      <ToastContainer />
-      <Button onClick={fetchTeachers}>Refresh Teachers List</Button>
-      <Overlay isShow={isShowOverlay} className={'flex flex-col w-full justify-center items-center ' + (isShowOverlay ? 'h-10' : 'h-full')}>
+  if (error) {
+    setTimeout(() => { toast('An error has occurred: ' + error.message) }, 0)
+    return (
+      <div>
+        <ToastContainer />
+      </div>
+    )
+  }
+
+  if (isSuccess) {
+    setTimeout(() => { toast('Teachers loaded: ' + data.length) }, 0)
+    return (
+      <div>
+        <ToastContainer />
+        <button onClick={demo}>Refetch</button>
         <Table className=''>
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
@@ -63,21 +70,22 @@ const Teachers = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {teachers.map(teacher => (
+            {data.map((teacher) => (
               <TableRow>
               <TableCell className="font-medium">{teacher.id}</TableCell>
               <TableCell>{teacher.avatar}</TableCell>
-              <TableCell>{teacher.name}</TableCell>
+              <TableCell>
+                <Link href={`/teachers/${teacher.id}`}>{teacher.name}</Link>
+              </TableCell>
               <TableCell>{teacher.email}</TableCell>
               <TableCell className="text-right">{teacher.createdAt}</TableCell>
             </TableRow>
             ))}
           </TableBody>
         </Table>
-
-      </Overlay>
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
 export default Teachers;

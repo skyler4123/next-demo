@@ -11,7 +11,7 @@ const Demo = () => {
   const onSubmit = (data) => {
     console.log(data)
   }
-  
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Controller 
