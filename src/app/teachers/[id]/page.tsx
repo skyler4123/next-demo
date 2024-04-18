@@ -39,7 +39,10 @@ const Teacher = ({params}: ParamsType) => {
       <div>
         <Link href={'/teachers'}>Back to Teachers</Link>
         <ToastContainer />
-        <div>Teacher Detail Page {params.id} {data.email}</div>
+        <div>Teacher ID: {data.id}</div>
+        <div>Teacher Email: {data.email}</div>
+        <div>Teacher Name: {data.name}</div>
+
       </div>
     )
   }

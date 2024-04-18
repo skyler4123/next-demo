@@ -15,6 +15,6 @@ export const TeachersApi = {
     return axios.get(BaseUrl + '/teachers/' + `${id}`, {headers: headers})
   },
   create({body, headers}: ParamsType = {}) {
-    return axios.post(BaseUrl + '/users', body, {headers: headers})
+    return axios.post(BaseUrl + '/teachers', body, {headers: headers})
   }
 }

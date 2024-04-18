@@ -1,19 +1,35 @@
 'use client'
 
+import { TeachersApi } from "@/api/teachers";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 
 const ReactHookForm = () => {
-  const { register, handleSubmit, control, formState: { errors }, watch } = useForm({
+  const router = useRouter()
+  const { register, unregister, handleSubmit, control, formState: { errors }, watch } = useForm({
     defaultValues: {
       email: '',
+      name: '',
       password: '',
       password_confirmation: ''
     }
   })
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = async (data: any) => {
+    delete(data['password'])
+    delete(data['password_confirmation'])
+
+    try {
+      await TeachersApi.create({
+        body: data
+      }).then(response => {
+        console.log(response.data)
+        router.push('/teachers/' + response.data.id)
+      })
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -33,6 +49,21 @@ const ReactHookForm = () => {
           }}
         />
         {errors.email && <div>Require email!</div>}
+
+        <Label>Name:</Label>
+        <Controller
+          control={control}
+          name="name"
+          rules={{
+            required: true
+          }}
+          render={({ field }) => {
+            return (
+              <Input {...field} />
+            )
+          }}
+        />
+        {errors.name && <div>Require name!</div>}
 
         <Label>Password:</Label>
         <Controller
