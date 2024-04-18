@@ -29,8 +29,6 @@ export interface TeacherType {
 }
 
 const Teachers = () => {
-  // const data1 = useFetch(null)
-  // console.log('wwwwwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeeeee', data1)
   const { isPending, error, data, isSuccess, refetch } = useQuery({
     queryKey: ['teachers'],
     queryFn: () => TeachersApi.index().then(response => response.data),
@@ -57,7 +55,7 @@ const Teachers = () => {
     return (
       <div>
         <ToastContainer />
-        <button onClick={demo}>Refetch</button>
+        <Button onClick={demo}>Refetch</Button>
         <Table className=''>
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
