@@ -3,11 +3,32 @@
 import { TeachersApi } from "@/api/teachers";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 
-const TeachersNew = () => {
-  const router = useRouter()
+const ReactMutation = () => {
+  // const router = useRouter()
+  const mutation = useMutation({
+    mutationFn: (payload: any) => {
+      return TeachersApi.create({body: payload})
+    },
+    onSuccess: (data, variables, context) => {
+      console.log(data)
+      // toast(data.statusText)
+      setTimeout(() => { toast(data.statusText) }, 0)
+      return (
+        <div>
+          <ToastContainer />
+        </div>
+      )
+
+    },
+    onError: (error, variables, content) => {
+      console.log(error)
+    }
+  })
   const { register, unregister, handleSubmit, control, formState: { errors }, watch } = useForm({
     defaultValues: {
       email: '',
@@ -20,20 +41,22 @@ const TeachersNew = () => {
     delete(data['password'])
     delete(data['password_confirmation'])
 
-    try {
-      await TeachersApi.create({
-        body: data
-      }).then(response => {
-        console.log(response.data)
-        router.push('/teachers/' + response.data.id)
-      })
-    } catch(error) {
-      console.log(error)
-    }
+    mutation.mutate(data)
+    // try {
+    //   await TeachersApi.create({
+    //     body: data
+    //   }).then(response => {
+    //     console.log(response.data)
+    //     router.push('/teachers/' + response.data.id)
+    //   })
+    // } catch(error) {
+    //   console.log(error)
+    // }
   }
 
   return (
     <div>
+      <ToastContainer />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Label>Email:</Label>
         <Controller
@@ -99,4 +122,4 @@ const TeachersNew = () => {
   )
 }
 
-export default TeachersNew;
+export default ReactMutation;
